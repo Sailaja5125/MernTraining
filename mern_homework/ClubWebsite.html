@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentblazer Club - Anurag University</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+
+        .logo::before {
+            content: '🚀';
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #1976d2;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #1976d2;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 160px);
+        }
+
+        .page-section {
+            display: none;
+            padding: 3rem 0;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            margin: 2rem 0;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            
+        }
+        .features h2{
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            margin: 2rem 0;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-section h2 {
+            color: #1b5e20;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        /* Events */
+        .event-card {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #1976d2;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateX(10px);
+        }
+
+        .event-date {
+            color: #1976d2;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #1976d2, #42a5f5);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-links {
+            margin: 1rem 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            color: #666;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #1976d2;
+            transform: scale(1.2);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Gallery Styles */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1976d2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="Agentblazer-logo.png" alt="Agentblazer Logo" class="agentblazer-logo">
+                </div>
+                <nav>
+                    <ul id="nav-menu">
+                        <li><a href="#" onclick="showPage('home')">Home</a></li>
+                        <li><a href="#" onclick="showPage('about')">About</a></li>
+                        <li><a href="#" onclick="showPage('events')">Events</a></li>
+                        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <section id="home" class="page-section active">
+            <div class="hero">
+                <div class="container">
+                    <h1>Welcome to Agentblazer Club</h1>
+                    <p>Empowering future technology leaders at Anurag University</p>
+                    <a href="#" class="cta-button" onclick="showPage('about')">Join Our Community</a>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="features">
+                    <h2>Why Join Agentblazer?</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Skill Development</h3>
+                            <p>Enhance your technical and leadership skills through hands-on projects and workshops.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🤝</div>
+                            <h3>Networking</h3>
+                            <p>Connect with like-minded peers and industry professionals to build lasting relationships.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🚀</div>
+                            <h3>Innovation</h3>
+                            <p>Work on cutting-edge projects and contribute to the future of technology.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2>Recent Highlights</h2>
+                    <div class="gallery" id="gallery">
+                        <!-- Dynamic gallery will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about" class="page-section">
+            <div class="container">
+                <div class="content-section">
+                    <h2>About Agentblazer Club</h2>
+                    <p style="font-size: 1.1rem; text-align: center; margin-bottom: 2rem; color: #666;">
+                        Founded with a vision to create technology leaders of tomorrow
+                    </p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <h3>🎯 Our Mission</h3>
+                            <p>To foster innovation, collaboration, and excellence among technology enthusiasts at Anurag University. We strive to bridge the gap between academic learning and industry requirements.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>📚 Our Vision</h3>
+                            <p>To be the premier technology club that produces industry-ready professionals who can lead digital transformation initiatives across various sectors.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>💡 Our Values</h3>
+                            <p>Innovation, Integrity, Collaboration, Excellence, and Continuous Learning. These values guide every initiative and project we undertake.</p>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 3rem; margin-bottom: 1.5rem; color: #1b5e20;">Meet Our Leadership Team</h3>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">👨‍💼</div>
+                            <h4>President</h4>
+                            <p><strong>Alex Johnson</strong><br>Computer Science, Final Year<br>"Leading innovation through collaboration"</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">👩‍💼</div>
+                            <h4>Vice President</h4>
+                            <p><strong>Sarah Chen</strong><br>Information Technology, Final Year<br>"Empowering students to reach their potential"</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💼</div>
+                            <h4>Technical Lead</h4>
+                            <p><strong>Raj Patel</strong><br>Electronics & Communication, Pre-Final Year<br>"Building the future, one project at a time"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Page -->
+        <section id="events" class="page-section">
+            <div class="container">
+                <div class="content-section">
+                    <h2>Events & Activities</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; color: #666;">
+                        Stay updated with our latest events and activities
+                    </p>
+                    
+                    <div id="events-list">
+                        <!-- Dynamic events will be loaded here -->
+                        <div class="loading" id="events-loading"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Page -->
+        <section id="contact" class="page-section">
+            <div class="container">
+                <div class="content-section">
+                    <h2>Get In Touch</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; color: #666;">
+                        Ready to join our community? We'd love to hear from you!
+                    </p>
+                    
+                    <div class="contact-form">
+                        <form id="contactForm" onsubmit="submitForm(event)">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="year">Academic Year</label>
+                                <input type="text" id="year" name="year" placeholder="e.g., 2nd Year B.Tech CSE">
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                                <textarea id="message" name="message" rows="5" required placeholder="Tell us why you want to join Agentblazer Club..."></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">Send Message</button>
+                        </form>
+                        
+                        <div style="margin-top: 3rem; text-align: center;">
+                            <h3 style="color: #1b5e20; margin-bottom: 1rem;">Contact Information</h3>
+                            <p><strong>Email:</strong> agentblazer@anurag.edu.in</p>
+                            <p><strong>Location:</strong> Anurag University, Hyderabad</p>
+                            <p><strong>Meeting Time:</strong> Every Friday, 4:00 PM - 6:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="Twitter">🐦</a>
+                <a href="#" title="LinkedIn">💼</a>
+                <a href="#" title="Instagram">📷</a>
+                <a href="#" title="GitHub">🐙</a>
+            </div>
+            <p>&copy; 2025 Agentblazer Club, Anurag University. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">
+                Empowering Innovation | Building Tomorrow's Leaders
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Close mobile menu if open
+            document.getElementById('nav-menu').classList.remove('active');
+            
+            // Update page title
+            const titles = {
+                'home': 'Agentblazer Club - Anurag University',
+                'about': 'About Us - Agentblazer Club',
+                'events': 'Events - Agentblazer Club',
+                'contact': 'Contact - Agentblazer Club'
+            };
+            document.title = titles[pageId] || 'Agentblazer Club';
+        }
+
+        function toggleMenu() {
+            document.getElementById('nav-menu').classList.toggle('active');
+        }
+
+        // Form validation and submission
+        function submitForm(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            // Basic validation
+            if (!name || !email || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // Success message
+            alert('Thank you for your message! We\'ll get back to you soon.');
+            document.getElementById('contactForm').reset();
+        }
+
+        // Dynamic Events Loading
+        function loadEvents() {
+            const eventsData = [
+                {
+                    title: "Tech Talk: AI in Modern Applications",
+                    date: "2025-09-15",
+                    type: "upcoming",
+                    description: "Join us for an insightful session on the latest AI trends and their practical applications in various industries."
+                },
+                {
+                    title: "Hackathon 2025: Innovation Challenge",
+                    date: "2025-09-30",
+                    type: "upcoming",
+                    description: "48-hour coding marathon to solve real-world problems. Prizes worth ₹50,000 to be won!"
+                },
+                {
+                    title: "Workshop: Cloud Computing Fundamentals",
+                    date: "2025-10-12",
+                    type: "upcoming",
+                    description: "Hands-on workshop covering AWS, Azure, and Google Cloud Platform basics."
+                },
+                {
+                    title: "Industry Expert Session",
+                    date: "2025-08-20",
+                    type: "past",
+                    description: "An enlightening session with industry leaders sharing insights about career opportunities in tech."
+                },
+                {
+                    title: "Coding Competition: AlgoBlaze",
+                    date: "2025-08-05",
+                    type: "past",
+                    description: "Competitive programming event that tested problem-solving skills of our members."
+                }
+            ];
+
+            setTimeout(() => {
+                const eventsContainer = document.getElementById('events-list');
+                const loading = document.getElementById('events-loading');
+                
+                if (loading) loading.style.display = 'none';
+                
+                const upcomingEvents = eventsData.filter(event => event.type === 'upcoming');
+                const pastEvents = eventsData.filter(event => event.type === 'past');
+                
+                let eventsHTML = '<h3 style="color: #1976d2; margin-bottom: 1rem;">🎯 Upcoming Events</h3>';
+                
+                upcomingEvents.forEach(event => {
+                    eventsHTML += `
+                        <div class="event-card">
+                            <div class="event-date">${formatDate(event.date)}</div>
+                            <h4 style="color: #1b5e20; margin: 0.5rem 0;">${event.title}</h4>
+                            <p>${event.description}</p>
+                        </div>
+                    `;
+                });
+                
+                eventsHTML += '<h3 style="color: #666; margin: 2rem 0 1rem 0;">📅 Past Events</h3>';
+                
+                pastEvents.forEach(event => {
+                    eventsHTML += `
+                        <div class="event-card" style="opacity: 0.8; border-left-color: #999;">
+                            <div class="event-date" style="color: #666;">${formatDate(event.date)}</div>
+                            <h4 style="color: #666; margin: 0.5rem 0;">${event.title}</h4>
+                            <p style="color: #777;">${event.description}</p>
+                        </div>
+                    `;
+                });
+                
+                eventsContainer.innerHTML = eventsHTML;
+            }, 1000);
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Dynamic Gallery Loading
+        function loadGallery() {
+            const galleryData = [
+                { id: 1, title: "Hackathon Winners", type: "achievement" },
+                { id: 2, title: "Workshop Session", type: "learning" },
+                { id: 3, title: "Team Building", type: "community" },
+                { id: 4, title: "Industry Visit", type: "exposure" },
+                { id: 5, title: "Project Showcase", type: "innovation" },
+                { id: 6, title: "Annual Fest", type: "celebration" }
+            ];
+
+            const gallery = document.getElementById('gallery');
+            let galleryHTML = '';
+
+            galleryData.forEach(item => {
+                galleryHTML += `
+                    <div class="gallery-item" onclick="showImageModal('${item.title}')">
+                        <img src="data:image/svg+xml,${encodeURIComponent(generatePlaceholderSVG(item.title, item.type))}" alt="${item.title}">
+                    </div>
+                `;
+            });
+
+            gallery.innerHTML = galleryHTML;
+        }
+
+        function generatePlaceholderSVG(title, type) {
+            const colors = {
+                achievement: ['#ff6b6b', '#feca57'],
+                learning: ['#48dbfb', '#0abde3'],
+                community: ['#ff9ff3', '#f368e0'],
+                exposure: ['#54a0ff', '#2e86de'],
+                innovation: ['#5f27cd', '#341f97'],
+                celebration: ['#00d2d3', '#01a3a4']
+            };
+
+            const [color1, color2] = colors[type] || colors.innovation;
+
+            return `
+                <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad${type}" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:${color1};stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:${color2};stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grad${type})" />
+                    <circle cx="150" cy="70" r="25" fill="rgba(255,255,255,0.3)" />
+                    <rect x="100" y="110" width="100" height="4" fill="rgba(255,255,255,0.5)" />
+                    <rect x="120" y="125" width="60" height="4" fill="rgba(255,255,255,0.3)" />
+                    <text x="150" y="160" text-anchor="middle" fill="white" font-family="Arial" font-size="14" font-weight="bold">${title}</text>
+                </svg>
+            `;
+        }
+
+        function showImageModal(title) {
+            alert(`Opening ${title} gallery - Feature coming soon!`);
+        }
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadEvents();
+            loadGallery();
+            
+            // Add smooth scrolling animation
+            document.body.style.animation = 'fadeInUp 0.8s ease';
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const nav = document.getElementById('nav-menu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
