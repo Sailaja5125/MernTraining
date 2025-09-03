@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            width: 400px;
+            margin: 0 auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+        a{
+            color: #ccc;
+            
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            height: 25px;
+        }
+        input[type="checkbox"] {
+            width: auto;
+        }
+        span{
+            display: flex;
+            align-items: center;
+        }
+        input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            height: 35px;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <input type="email" placeholder="Email" class="Email">
+        <input type="text" placeholder="First Name" class="FirstName">
+        <input type="text" placeholder="Last Name" class="LastName">
+        <input type="password" placeholder="Password" class="Password">
+        <p class="PasswordError"></p>
+        <span><input type="checkbox" id="terms"> <p>Email me with news and updates</p></span>
+        <p>By signing up you agree to out <a href="#">Terms of Services</a> and <a href="#">Privacy Poilicy</a></p>
+        <input type="button" value="Create Account" onclick="validatePassword()">
+    </form>
+    
+</body>
+<script>
+    function validatePassword(){
+        const password = document.querySelector('.Password').value;
+        const errorElement = document.querySelector('.PasswordError');
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        
+        password.includes(passwordRegex) ? errorElement.innerHTML = "Very strong Password" : errorElement.innerHTML = "password must contain a Uppercase a LowerCase and a character" 
+        if (password.length < 8) {
+            errorElement.innerHTML = "Password must be at least 8 characters long.";
+            errorElement.style.color = "red";
+            errorElement.style.fontSize = "12px";
+            return false;
+        } else {
+            errorElement.innerHTML = "";
+            return true;
+        }
+    }
+</script>
+</html>
